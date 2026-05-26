@@ -1,0 +1,633 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ResourceMan - Gibson Shoes</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        /* Force the layout to collapse into 2 columns (Sidebar + Main) 
+           and ensure main content fills the remaining width. */
+        .app-container { display: flex; width: 100%; height: 100vh; overflow: hidden; }
+        .sidebar { flex-shrink: 0; width: 256px; }
+        .main-content { flex: 1; overflow-y: auto; }
+        
+        /* Remove restricted width to allow the 'View' to fill the right side */
+        .page { 
+            max-width: 100%; 
+            margin: 0; 
+        }
+
+        @media (max-width: 768px) {
+            .sidebar { position: fixed; left: 0; top: 0; height: 100%; z-index: 1000; transform: translateX(-100%); transition: transform 0.3s ease; }
+            .sidebar.mobile-open { transform: translateX(0); }
+            .sidebar-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.7); backdrop-filter: blur(4px); z-index: 999; }
+            .sidebar-overlay.active { display: block; }
+        }
+    </style>
+</head>
+<body>
+    <button class="mobile-toggle-btn" onclick="toggleSidebar()"><i class="fas fa-bars"></i></button>
+    <div class="sidebar-overlay" onclick="toggleSidebar()"></div>
+    <div class="app-container">
+        
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <div class="brand-container">
+                    <div class="brand-logo">RM</div>
+                    <div>
+                        <h1 class="brand-title">ResourceMan</h1>
+                        <p class="brand-subtitle">Gibson Shoes</p>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="sidebar-nav-wrapper">
+                <nav>
+                    <a onclick="navigateTo(1)" id="nav-1" class="nav-item active">
+                        <i class="fas fa-home"></i>
+                        <span>My ResourceMan</span>
+                    </a>
+                    <a onclick="navigateTo(3)" id="nav-3" class="nav-item">
+                        <i class="fas fa-shoe-prints"></i>
+                        <span>Our Shoes</span>
+                    </a>
+                    <a onclick="navigateTo(6)" id="nav-6" class="nav-item">
+                        <i class="fas fa-bolt"></i>
+                        <span>Shoelanders</span>
+                    </a>
+                    <a onclick="navigateTo(7)" id="nav-7" class="nav-item">
+                        <i class="fas fa-star"></i>
+                        <span>Marikina Premium Collection</span>
+                    </a>
+                    <a onclick="navigateTo(8)" id="nav-8" class="nav-item">
+                        <i class="fas fa-hard-hat"></i>
+                        <span>PPE's</span>
+                    </a>
+                    <a onclick="navigateTo(4)" id="nav-4" class="nav-item">
+                        <i class="fas fa-lightbulb"></i>
+                        <span>Technologies</span>
+                    </a>
+                    <a onclick="navigateTo(5)" id="nav-5" class="nav-item">
+                        <i class="fas fa-boxes-stacked"></i>
+                        <span>Other Products</span>
+                    </a>
+                    <a onclick="navigateTo(9)" id="nav-9" class="nav-item">
+                        <i class="fas fa-plus-circle"></i>
+                        <span>More products</span>
+                    </a>
+                    
+                    <div class="nav-group-title">Account</div>
+                    <a onclick="navigateTo(2)" id="nav-2-account" class="nav-item">
+                        <i class="fas fa-bullseye"></i>
+                        <span>Vision & Mission</span>
+                    </a>
+
+
+                    <a onclick="navigateTo(20)" id="nav-20" class="nav-item">
+                        <i class="fas fa-sign-in-alt"></i>
+                        <span>Login</span>
+                    </a>
+                    <a onclick="navigateTo(21)" id="nav-21" class="nav-item">
+                        <i class="fas fa-user-plus"></i>
+                        <span>Create Account</span>
+                    </a>
+                    <a onclick="navigateTo(10)" id="nav-10" class="nav-item">
+                        <i class="fas fa-user-shield"></i>
+                        <span id="nav-portal-text">Profile</span>
+                    </a>
+                    
+                    <a onclick="navigateTo(11)" id="nav-11" class="nav-item hidden-admin-nav">
+                        <i class="fas fa-database"></i>
+                        <span>Admin Terminal</span>
+                    </a>
+
+                    <a onclick="navigateTo(12)" id="nav-12" class="nav-item hidden-admin-nav">
+                        <i class="fas fa-user-gear"></i>
+                        <span>Admin Product Manager</span>
+                    </a>
+                </nav>
+            </div>
+        </div> <!-- Added missing closing tag for sidebar -->
+        
+        <div class="main-content">
+
+            <div id="page-1" class="page">
+                <h1>Welcome to My ResourceMan</h1>
+                <p class="page-subtitle">Premium Gibson Shoes • Engineered for Performance</p>
+                
+                <div class="grid-split-2">
+                    <div class="panel-box">
+                        <img id="hero-image" src="https://picsum.photos/id/1015/800/600" alt="Gibson Shoes" class="hero-img">
+                        <div class="panel-padding">
+                            <h2>Gibson Elite Collection Safety Shoes</h2>
+                            <p style="color: var(--text-muted); margin-top: 12px; margin-bottom: 24px; line-height: 1.6;">Discover our latest collection of premium footwear designed for comfort and style.</p>
+                            <button onclick="navigateTo(3)" class="btn-action">
+                                Shop Collection <i class="fas fa-arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="space-stack">
+                        <div class="panel-box panel-padding">
+                            <h3>Featured This Week</h3>
+                            <div class="thumbnail-row">
+                                <div onclick="viewShoe(1)" class="thumb-item">
+                                    <img src="https://picsum.photos/id/201/300/300">
+                                    <p class="thumb-title">Urban Runner X1</p>
+                                </div>
+                                <div onclick="viewShoe(2)" class="thumb-item">
+                                    <img src="https://picsum.photos/id/237/300/300">
+                                    <p class="thumb-title">Trail Master Pro</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="gradient-banner">
+                            <h3 style="font-weight: 800;">Join the ResourceMan Community</h3>
+                            <p style="margin-top: 12px; font-weight: 500; line-height: 1.5;">Get exclusive access, early drops, and member-only discounts.</p>
+                            <button onclick="handleProfileWidgetClick()" class="btn-action">Sign Up Free</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="page-2" class="page">
+                <h1 style="text-align: center; margin-bottom: 48px;">Our Vision & Mission</h1>
+                
+                <div class="grid-split-2">
+                    <div class="panel-box panel-padding">
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                            <span style="font-size: 40px;">🌍</span>
+                            <h2>Vision</h2>
+                        </div>
+                        <p style="font-size: 18px; line-height: 1.7; color: #d4d4d8;">
+                            To be the global leader in intelligent, sustainable footwear that empowers every individual to move with confidence, comfort, and purpose.
+                        </p>
+                    </div>
+                    
+                    <div class="panel-box panel-padding">
+                        <div style="display: flex; align-items: center; gap: 16px; margin-bottom: 24px;">
+                            <span style="font-size: 40px;">🎯</span>
+                            <h2>Mission</h2>
+                        </div>
+                        <p style="font-size: 18px; line-height: 1.7; color: #d4d4d8;">
+                            We craft premium shoes using cutting-edge technology and ethical materials, delivering unmatched performance while protecting our planet for future generations.
+                        </p>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="page-3" class="page hidden">
+                <h1 style="margin-bottom: 32px;">Gibson Shoes Collection</h1>
+                <div class="grid-shoes" id="shoes-grid">
+                    </div>
+            </div>
+
+            <div id="page-6" class="page hidden">
+                <h1 style="margin-bottom: 32px;">Shoelanders</h1>
+                <div class="grid-shoes" id="shoelanders-grid"></div>
+            </div>
+
+            <div id="page-7" class="page hidden">
+                <h1 style="margin-bottom: 32px;">Marikina Premium Collection</h1>
+                <div class="grid-shoes" id="marikina-grid"></div>
+            </div>
+
+            <div id="page-8" class="page hidden">
+                <h1 style="margin-bottom: 32px;">PPE's & Safety Equipment</h1>
+                <div class="grid-shoes" id="ppe-grid"></div>
+            </div>
+            <div id="page-4" class="page hidden">
+                <h1 style="margin-bottom: 48px;">ResourceMan Technologies</h1>
+                <div id="tech-grid" class="grid-split-2"></div>
+            </div>
+            
+            <div id="page-5" class="page hidden">
+                <h1 style="margin-bottom: 32px;">Other ResourceMan Products</h1>
+                <div id="other-grid" class="grid-split-3"></div>
+            </div>
+
+            <div id="page-9" class="page hidden">
+                <h1 style="margin-bottom: 32px;">More Products</h1>
+                <div id="more-products-grid" class="grid-split-3"></div>
+            </div>
+
+            <div id="shoe-modal" class="modal-overlay hidden">
+                <div class="modal-container">
+                    <div class="modal-media">
+                        <img id="modal-shoe-image" src="">
+                    </div>
+                    <div class="modal-details">
+                        <div>
+                            <button onclick="closeShoeModal()" class="close-btn">×</button>
+                            <h2 id="modal-shoe-name"></h2>
+                            
+                            <div class="price-row-modal">
+                                <p id="modal-shoe-price"></p>
+                                <span id="price-status-badge" class="badge-status"></span>
+                            </div>
+
+                            <p id="modal-shoe-desc" class="modal-desc-text"></p>
+                        </div>
+                        
+                        <div class="modal-footer-action">
+                            <div class="modal-quantity-row">
+                                <label for="modal-quantity">Qty</label>
+                                <input id="modal-quantity" type="number" min="1" value="1" class="modal-quantity-input">
+                            </div>
+                            <button id="modal-buy-btn" onclick="addToCart()" class="btn-action">Add to Cart</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="cancel-reason-modal" class="modal-overlay hidden">
+                <div class="reason-box">
+                    <h2 style="color: var(--danger); font-size: 24px;"><i class="fas fa-exclamation-circle"></i> Cancel Order</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Please help us understand why you want to cancel this order.</p>
+                    
+                    <div class="reason-options">
+                        <label class="reason-item">
+                            <input type="radio" name="cancel-reason" value="Changed my mind" checked>
+                            <span>I changed my mind / Don't like it anymore</span>
+                        </label>
+                        <label class="reason-item">
+                            <input type="radio" name="cancel-reason" value="Incorrect size/color">
+                            <span>Ordered incorrect size or color</span>
+                        </label>
+                        <label class="reason-item">
+                            <input type="radio" name="cancel-reason" value="Found better price">
+                            <span>Found a better price elsewhere</span>
+                        </label>
+                        <label class="reason-item">
+                            <input type="radio" name="cancel-reason" value="Shipping delay">
+                            <span>Expected delivery time is too long</span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button onclick="closeCancelModal()" class="btn-sync" style="background: transparent; border: 1px solid var(--border-color);">Keep Order</button>
+                        <button onclick="confirmCancelOrder()" class="btn-action" style="background-color: var(--danger); color: #fff; flex: 1; justify-content: center; padding: 12px;">Confirm Cancellation</button>
+                    </div>
+                </div>
+            </div>
+            
+            <div id="page-20" class="page hidden">
+                <div class="auth-card">
+                    <h2 class="auth-title">Account Login</h2>
+                    <p class="auth-subtitle">Sign in to reveal member pricing and track orders</p>
+                    <input id="login-email" type="email" placeholder="Email Address" class="auth-input">
+                    <input id="login-pass" type="password" placeholder="Password" class="auth-input">
+                    <button onclick="login()" class="btn-action">Login</button>
+                    <p onclick="navigateTo(21)" class="toggle-auth-prompt">Don't have an account? Create one here</p>
+                </div>
+            </div>
+
+            <div id="payment-modal" class="modal-overlay hidden">
+                <div class="reason-box">
+                    <h2 style="color: var(--primary); font-size: 24px;"><i class="fas fa-credit-card"></i> Payment Method</h2>
+                    <p style="color: var(--text-muted); font-size: 14px; margin-top: 4px;">Choose your preferred way to pay for your items.</p>
+                    
+                    <div class="reason-options">
+                        <label class="reason-item">
+                            <input type="radio" name="payment-method" value="GCash" checked>
+                            <span>GCash (Digital Wallet)</span>
+                        </label>
+                        <label class="reason-item">
+                            <input type="radio" name="payment-method" value="COD">
+                            <span>Cash on Delivery (COD)</span>
+                        </label>
+                    </div>
+
+                    <div style="display: flex; gap: 12px; margin-top: 24px;">
+                        <button onclick="closePaymentModal()" class="btn-sync" style="background: transparent; border: 1px solid var(--border-color);">Back to Cart</button>
+                        <button onclick="confirmCheckoutWithPayment()" class="btn-action" style="flex: 1; justify-content: center; padding: 12px;">Confirm & Place Order</button>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-21" class="page hidden">
+                <div class="auth-card">
+                    <h2 class="auth-title">Create Account</h2>
+                    <p class="auth-subtitle">Join ResourceMan to purchase footwear and track order history</p>
+                    <input id="reg-name" type="text" placeholder="Full Name" class="auth-input">
+                    <input id="reg-email" type="email" placeholder="Email Address" class="auth-input">
+                    <input id="reg-pass" type="password" placeholder="Secure Password" class="auth-input">
+                    <input id="reg-phone" type="tel" placeholder="Phone Number" class="auth-input">
+                    <input id="reg-address" type="text" placeholder="Address" class="auth-input">
+                    <button onclick="register()" class="btn-action">Complete Registration</button>
+                    <p onclick="navigateTo(20)" class="toggle-auth-prompt">Already have an account? Log in instead</p>
+                </div>
+            </div>
+
+            <div id="page-22" class="page hidden">
+                <div class="auth-card">
+                    <h2 class="auth-title">Verify Email Address</h2>
+                    <p class="auth-subtitle">Enter the confirmation code sent to <span id="verify-email-display">your email</span></p>
+                    
+                    <div id="verify-status" style="background: var(--surface-secondary); padding: 16px; border-radius: 8px; margin-bottom: 20px; text-align: center; color: var(--text-muted);">
+                        <p style="margin: 0;">Checking email delivery...</p>
+                        <p style="margin-top: 8px; font-size: 12px;">If you don't receive an email within a minute, check your spam folder.</p>
+                    </div>
+
+                    <input id="verify-code-input" type="text" placeholder="Enter 6-digit code" class="auth-input" maxlength="6" style="text-align: center; font-size: 20px; letter-spacing: 4px; font-family: monospace;">
+                    <button onclick="verifyEmail()" class="btn-action">Confirm Email</button>
+                    <button onclick="cancelVerification()" class="btn-sync" style="background: transparent; border: 1px solid var(--border-color); margin-top: 12px; width: 100%;">Cancel & Go Back</button>
+                </div>
+            </div>
+
+            <div id="page-10" class="page">
+
+                <div id="customer-empty-view" class="panel-box">
+
+                    <div class="panel-padding" style="padding: 24px;">
+                        <h2 style="margin-bottom: 12px;">Guest Access Only</h2>
+                        <p style="color: var(--text-muted); line-height: 1.6;">Please log in first to view your profile data and transaction history.</p>
+                    </div>
+                </div>
+
+                <div id="customer-view" class="hidden">
+<div class="hub-banner">
+                        <div>
+                            <h2 id="customer-profile-title" style="margin-top: 8px;">Welcome Back!</h2>
+                            <p id="customer-profile-subtitle" style="color: var(--text-muted); margin-top: 4px;">customer@resourceman.com</p>
+                        </div>
+                        <button onclick="logout()" class="btn-signout">Sign Out</button>
+                    </div>
+
+                    <div class="panel-box panel-padding" style="padding: 24px; margin-bottom: 24px;">
+                        <h3 style="font-size: 20px; margin-bottom: 16px; color: var(--primary);"><i class="fas fa-user-circle"></i> Profile Information</h3>
+                        <div style="display: grid; gap: 12px;">
+                            <div><strong>Name:</strong> <span id="profile-name-text"></span></div>
+                            <div><strong>Email:</strong> <span id="profile-email-text"></span></div>
+                            <div><strong>Phone:</strong> <span id="profile-phone-text"></span></div>
+                            <div><strong>Address:</strong> <span id="profile-address-text"></span></div>
+                            <div><strong>Account Status:</strong> <span id="profile-status-text"></span></div>
+                            <div><strong>Orders:</strong> <span id="profile-orders-count"></span></div>
+                        </div>
+                    </div>
+
+                    <div class="dashboard-split">
+                        <div>
+                            <div class="panel-box panel-padding" style="padding: 24px;">
+                                <h3 style="font-size: 20px; margin-bottom: 16px; color: var(--primary);"><i class="fas fa-id-card"></i> Shipping Matrix</h3>
+                                <div>
+                                    <label class="form-label">Contact Handset</label>
+                                    <input id="contact-phone" placeholder="+63 900 000 0000" class="form-input">
+                                    
+                                    <label class="form-label">Fulfillment Address</label>
+                                    <textarea id="contact-address" placeholder="Unit/Building, Street City, Province" rows="3" class="form-input form-textarea"></textarea>
+                                    
+                                    <button onclick="saveProfile()" class="btn-sync">Sync Metadata updates</button>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <div class="panel-box panel-padding" style="padding: 24px;">
+                                <h3 style="font-size: 20px; margin-bottom: 16px; color: var(--primary);"><i class="fas fa-history"></i> Personal Purchase History</h3>
+                            <div class="history-split">
+                                <div class="history-panel">
+                                    <h4 class="history-panel-title"><i class="fas fa-shopping-cart"></i> Cart History</h4>
+                                    <button id="checkout-all-btn" onclick="checkoutCart()" class="btn-action" style="margin-bottom: 12px; width: 100%; display: none;">Checkout All Items</button>
+                                    <div class="table-container admin-table-scroll">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Reference ID</th>
+                                                    <th>Shoe Line Model</th>
+                                                    <th>Invoice Pricing</th>
+                                                    <th>Status Line</th>
+                                                    <th style="text-align: right;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="customer-cart-rows">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+
+                                <div class="history-panel">
+                                    <h4 class="history-panel-title"><i class="fas fa-receipt"></i> Purchase History</h4>
+                                    <div class="table-container">
+                                        <table>
+                                            <thead>
+                                                <tr>
+                                                    <th>Reference ID</th>
+                                                    <th>Shoe Line Model</th>
+                                                    <th>Invoice Pricing</th>
+                                                    <th>Status Line</th>
+                                                    <th style="text-align: right;">Action</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="customer-purchase-rows">
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-11" class="page">
+                <div id="admin-view" class="hidden">
+                    <div class="hub-banner admin-banner">
+                        <div>
+                            <span class="hub-tag admin-hub-tag"><i class="fas fa-shield-alt"></i> Root Administrator Terminal</span>
+                            <h2 style="margin-top: 8px; font-weight: 900;">ResourceMan Admin Dashboard</h2>
+                            <p style="color: var(--text-muted); margin-top: 4px;">Cross-checking site database registers, transactional logs, and system passwords metrics</p>
+                        </div>
+                        <button onclick="logout()" class="btn-action" style="background-color: var(--danger); color: #ffffff;">Kill Active Session</button>
+                    </div>
+                    
+                    <div class="admin-metrics-row">
+                        <div class="metric-card">
+                            <p class="metric-label">Active Profiles Counter</p>
+                            <h3 id="stat-profiles" class="metric-value text-yellow">0</h3>
+                        </div>
+                        <div class="metric-card">
+                            <p class="metric-label">Cumulative Transactions</p>
+                            <h3 id="stat-orders" class="metric-value text-yellow">0</h3>
+                        </div>
+                        <div class="metric-card">
+                            <p class="metric-label">Flagged / Blocked Users</p>
+                            <h3 id="stat-blocked" class="metric-value" style="color: var(--danger);">0</h3>
+                        </div>
+                    </div>
+
+                    <div class="panel-box panel-padding">
+                        <h3 style="margin-bottom: 24px;"><i class="fas fa-users-cog text-yellow"></i> Customer Master Databases & Firewalls</h3>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Full Profile Name</th>
+                                        <th>Secure System Email</th>
+                                        <th>Plaintext Password Metric</th>
+                                        <th>Contact / Shipping Profile</th>
+                                        <th>Invoiced History Records</th>
+                                        <th style="text-align: center;">System Override Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-customer-rows">
+                                    </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="panel-box panel-padding" style="margin-top: 24px;">
+                        <h3 style="margin-bottom: 24px;"><i class="fas fa-shopping-bag text-yellow"></i> Global Purchase History</h3>
+                        
+                        <div class="table-container">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Order ID</th>
+                                        <th>Customer</th>
+                                        <th>Item(s)</th>
+                                        <th>Cost</th>
+                                        <th>Payment</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="admin-orders-rows">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div id="page-12" class="page">
+                <div id="admin-product-view" class="hidden">
+                    <div class="hub-banner admin-banner">
+                        <div>
+                            <span class="hub-tag admin-hub-tag"><i class="fas fa-bag-shopping"></i> Admin Product Manager</span>
+                            <h2 style="margin-top: 8px; font-weight: 900;">Change Pricing & Add Products</h2>
+                            <p style="color: var(--text-muted); margin-top: 4px;">Update prices and manage product catalog (Shoes, Technologies, Other Products). Changes apply instantly for this browser.</p>
+                        </div>
+                    </div>
+
+                    <div class="panel-box panel-padding" style="margin-top: 18px;">
+                        <h3 style="margin-bottom: 12px; color: var(--primary);"><i class="fas fa-wrench"></i> Update Pricing</h3>
+
+                        <div class="grid-split-2">
+                            <div>
+                                <label class="form-label">Product Type</label>
+                                <select id="admin-price-type" class="form-input">
+                                    <option value="shoe">Shoes</option>
+                                    <option value="technology">Technologies</option>
+                                    <option value="product">Other Products</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label">Lookup by (ID or Name)</label>
+                                <select id="admin-price-lookup-mode" class="form-input">
+                                    <option value="id">ID</option>
+                                    <option value="name">Name</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label">Lookup Value</label>
+                                <input id="admin-price-lookup-value" class="form-input" placeholder="e.g., 1 or 'Urban Runner X1'">
+                            </div>
+
+                            <div>
+                                <label class="form-label">New Price</label>
+                                <input id="admin-price-new" class="form-input" placeholder="e.g., 2499 or ₱2,499">
+                            </div>
+
+                            <div>
+                                <label class="form-label">New Description (optional)</label>
+                                <textarea id="admin-price-desc-new" class="form-input form-textarea" rows="3" placeholder="Optional. Leave blank to keep existing."></textarea>
+                            </div>
+
+                            <div>
+                                <label class="form-label">New Image URL (optional)</label>
+                                <input id="admin-price-image-new" class="form-input" placeholder="Optional. Leave blank to keep existing.">
+                                <div style="margin-top: 8px;">
+                                    <label class="form-label" style="margin-bottom:0;">Or upload Image File (optional)</label>
+                                    <input id="admin-price-image-file" type="file" accept="image/*" class="form-input" style="padding: 8px;" onchange="handleAdminImageUpload('update')">
+                                    <div style="margin-top: 8px; display:flex; gap:10px; align-items:center;">
+                                        <img id="admin-price-image-preview" alt="Preview" style="width: 54px; height: 54px; object-fit: cover; border-radius: 8px; background: var(--surface-secondary);">
+                                        <span id="admin-price-image-filename" style="color: var(--text-muted); font-size: 12px;">No file selected</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div style="grid-column: 1 / -1;">
+                                <button onclick="adminUpdateProductPrice()" class="btn-action" style="width: 100%;">Update</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="panel-box panel-padding" style="margin-top: 18px;">
+                        <h3 style="margin-bottom: 12px; color: var(--primary);"><i class="fas fa-plus-circle"></i> Add New Product</h3>
+
+                        <div class="grid-split-2">
+                            <div>
+                                <label class="form-label">Product Type</label>
+                                <select id="admin-add-type" class="form-input">
+                                    <option value="shoe">Shoes</option>
+                                    <option value="technology">Technologies</option>
+                                    <option value="product">Other Products</option>
+                                </select>
+                            </div>
+
+                            <div>
+                                <label class="form-label">New ID</label>
+                                <input id="admin-add-id" class="form-input" placeholder="e.g., 13 or tech-7 or other-4 (leave blank to auto-generate)">
+                            </div>
+
+                            <div>
+                                <label class="form-label">New Name</label>
+                                <input id="admin-add-name" class="form-input" placeholder="Product name">
+                            </div>
+
+                            <div>
+                                <label class="form-label">New Price</label>
+                                <input id="admin-add-price" class="form-input" placeholder="e.g., 2999 or ₱3,299">
+                            </div>
+
+                            <div>
+                                <label class="form-label">New Image URL (optional)</label>
+                                <input id="admin-add-image" class="form-input" placeholder="Optional. Leave blank for placeholder.">
+                                <div style="margin-top: 8px;">
+                                    <label class="form-label" style="margin-bottom:0;">Or upload Image File (optional)</label>
+                                    <input id="admin-add-image-file" type="file" accept="image/*" class="form-input" style="padding: 8px;" onchange="handleAdminImageUpload('add')">
+                                    <div style="margin-top: 8px; display:flex; gap:10px; align-items:center;">
+                                        <img id="admin-add-image-preview" alt="Preview" style="width: 54px; height: 54px; object-fit: cover; border-radius: 8px; background: var(--surface-secondary);">
+                                        <span id="admin-add-image-filename" style="color: var(--text-muted); font-size: 12px;">No file selected</span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div>
+                                <label class="form-label">New Description (optional)</label>
+                                <textarea id="admin-add-desc" class="form-input form-textarea" rows="3" placeholder="Optional."></textarea>
+                            </div>
+
+                            <div style="grid-column: 1 / -1;">
+                                <button onclick="adminAddProduct()" class="btn-action" style="width: 100%;">Add</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    
+    <div id="toast" class="toast-popup hidden">Action completed</div>
+    
+<script src="https://cdn.jsdelivr.net/npm/emailjs-com@3/dist/email.min.js"></script>
+<script src="r4.js"></script>
+</body>
+</html>
